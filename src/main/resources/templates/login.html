@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Login</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    </head>
+
+    <body>
+        <div class="container-login">
+            <form th:action="@{/conta/login}" method="post" id="form-login">
+                <h1 style="color: #3c9aff; text-decoration: underline; text-align: center;">Perdidos & Achados</h1>
+
+                <div th:if="${param.error}">
+                    <p style="color: red;">Telefone ou senha inválidos</p>
+                </div>
+                <div th:if="${param.logout}">
+                    <p style="color: green;">Você saiu com sucesso</p>
+                </div>
+
+                <label for="telefoneLogin"><b>Telefone</b></label>
+                <input class="form-login-fields" id="telefoneLogin" type="number" placeholder="Seu Telefone" name="username" required>
+                <br><br>
+                <label for="senhaLogin"><b>Senha</b></label>
+                <input class="form-login-fields" id="senhaLogin" type="password" placeholder="Sua Senha" name="password" required>
+
+                <input type="submit" value="Entrar">
+
+                <a href="javascript:void(0);" id="link-criar-conta" style="color: #3c9aff; border: 1px solid; padding: 10px;">criar conta</a><br><br>
+                <a th:href="@{/recuperar_conta}">Esqueci a senha</a>
+            </form>
+
+            <form style="display: none;" th:action="@{/conta/criar-conta}" method="post" id="form-cadastro">
+                <h1 style="color: #3c9aff; text-decoration: underline; text-align: center;">Perdidos & Achados</h1>
+
+                <div th:if="${mensagem}" style="color: green; text-align: center;">
+                    <p th:text="${mensagem}"></p>
+                </div>
+
+                <h3>Criar Conta</h3>
+
+                <label for="nome"><b>Seu Nome</b></label>
+                <input class="form-login-fields" id="nome" type="text" placeholder="Primeiro e Último" name="nome" required>
+
+                <label for="telefone"><b>Telefone</b></label>
+                <input class="form-login-fields" id="telefone" type="number" placeholder="Seu Telefone" name="telefone" required>
+
+                <label for="email"><b>Email</b></label>
+                <input class="form-login-fields" id="email" type="email" placeholder="Seu email" name="email" required>
+
+                <label for="senha"><b>Nova Senha</b></label>
+                <input class="form-login-fields" id="senha" type="password" placeholder="Sua Senha" name="senha" required>
+
+                <input type="submit" value="Criar Conta">
+                <a href="javascript:void(0);" id="link-login" style="color: #3c9aff; border: 1px solid; padding: 10px; margin-left: 30px;">Fazer Login</a>
+            </form>
+        </div>
+
+    <script>
+        // Selecionar os elementos dos formulários e os links
+        const formLogin = document.getElementById("form-login");
+        const formCadastro = document.getElementById("form-cadastro");
+        const linkCriarConta = document.getElementById("link-criar-conta");
+        const linkLogin = document.getElementById("link-login");
+
+        // Função para alternar para o formulário de cadastro
+        linkCriarConta.addEventListener("click", function() {
+            formLogin.style.display = "none";  // Oculta o formulário de login
+            formCadastro.style.display = "block";  // Exibe o formulário de cadastro
+        });
+
+        // Função para alternar de volta para o formulário de login
+        linkLogin.addEventListener("click", function() {
+            formCadastro.style.display = "none";  // Oculta o formulário de cadastro
+            formLogin.style.display = "block";  // Exibe o formulário de login
+        });
+    </script>
+
+        <script th:if="${cadastro}" th:inline="javascript">
+            formLogin.style.display = "none";  // Oculta o formulário de login
+            formCadastro.style.display = "block";  // Exibe o formulário de cadastro
+        </script>
+    </body>
+
+</html>
